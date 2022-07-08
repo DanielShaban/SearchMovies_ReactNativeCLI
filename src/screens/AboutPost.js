@@ -31,18 +31,13 @@ function AboutPost({ route }) {
   useEffect(() => {
     dispatch(FindDetails(PostId));
     return () => dispatch(ClearInfoAbout());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <ScrollView style={styles.container}>
-      <View
-        style={{ ...styles.margins, marginBottom: Math.max(insets.bottom, 10) }}
-      >
-        <AutoHeightImage
-          width={windowsWidth - 40}
-          source={{ uri: infoAbout.Poster }}
-        />
+      <View style={{ ...styles.margins, marginBottom: Math.max(insets.bottom, 10) }}>
+        <AutoHeightImage width={windowsWidth - 40} source={{ uri: infoAbout.Poster }} />
         <Text style={styles.InfoListStyle}>{InfoList}</Text>
         {isShort ? (
           <Text style={styles.TextLink} onPress={() => setIsShort(false)}>

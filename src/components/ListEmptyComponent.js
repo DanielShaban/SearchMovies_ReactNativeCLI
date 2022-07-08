@@ -4,9 +4,7 @@ import { useSelector } from 'react-redux';
 
 function ListEmptyComponent() {
   const areThereMatches = useSelector((state) => state.movies.areThereMatches) ?? false;
-  const text = areThereMatches
-    ? 'Enter at least 3 characters to search'
-    : 'There are no matches';
+  const text = areThereMatches ? 'Enter at least 3 characters to search' : 'There are no matches';
   return (
     <View style={styles.container}>
       <Text style={styles.Text}>{text}</Text>

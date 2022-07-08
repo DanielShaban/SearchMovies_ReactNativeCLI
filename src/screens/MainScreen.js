@@ -1,9 +1,13 @@
-import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
-import React, { useMemo, useState } from 'react';
+import {
+  View, Text, StyleSheet, FlatList, RefreshControl,
+} from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SearchBar } from '@rneui/base';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ClearSearch, SearchMovies, StartLoading, StartLoadingMore } from '../store/actions/movies';
+import {
+  ClearSearch, SearchMovies, StartLoading, StartLoadingMore,
+} from '../store/actions/movies';
 import SimplePoster from '../components/SimplePoster';
 import ListEmptyComponent from '../components/ListEmptyComponent';
 import FooterIndicator from '../components/FooterIndicator';
@@ -16,13 +20,34 @@ function MainScreen() {
   const dispatch = useDispatch();
   const MoviesList = useSelector((state) => state.movies.Movies) ?? false;
   const MoviesListToShow = text.length < 3 ? [] : MoviesList;
-  const doSearchMovies = (entertext) => {
+  const debounce = (func, wait) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func(...args);
+      }, wait);
+    };
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSave = useCallback(
+    debounce((entertext) => {
+      if (entertext.length >= 3) {
+        dispatch(SearchMovies(entertext));
+      }
+    }, 1000),
+    [],
+  );
+
+  const handleChange = (entertext) => {
     setPage(1);
     onChangeText(entertext);
-    if (entertext.length < 3) return dispatch(ClearSearch());
     dispatch(StartLoading());
-    return dispatch(SearchMovies(entertext));
+    if (entertext.length < 3) dispatch(ClearSearch());
+    return debouncedSave(entertext);
   };
+
   const onRefresh = () => {
     setRefreshing(true);
     setPage(1);
@@ -44,7 +69,7 @@ function MainScreen() {
         <SearchBar
           lightTheme
           placeholder="Type Here..."
-          onChangeText={doSearchMovies}
+          onChangeText={handleChange}
           containerStyle={styles.SearchBar}
           value={text}
         />

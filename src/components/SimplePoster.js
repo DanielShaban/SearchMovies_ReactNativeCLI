@@ -1,5 +1,5 @@
 import {
-  Dimensions, StyleSheet, Text, View,
+ Dimensions, StyleSheet, Text, View, 
 } from 'react-native';
 import React from 'react';
 import AutoHeightImage from 'react-native-auto-height-image';
@@ -16,9 +16,7 @@ function SimplePoster({ item }) {
       <View style={styles.imageContainer}>
         <AutoHeightImage
           width={cardWidth}
-          source={
-            item.Poster === 'N/A' ? NotPictureAvailable : { uri: item.Poster }
-          }
+          source={item.Poster === 'N/A' ? NotPictureAvailable : { uri: item.Poster }}
           resizeMode="contain"
         />
       </View>
@@ -40,8 +38,8 @@ function SimplePoster({ item }) {
         </View>
         <TouchableWithoutFeedback
           onPress={() => navigation.navigate('AboutPost', {
-            PostId: item.imdbID,
-          })}
+              PostId: item.imdbID,
+            })}
           containerStyle={styles.touchableContainerStyle}
           style={styles.touchableStyle}
         >
