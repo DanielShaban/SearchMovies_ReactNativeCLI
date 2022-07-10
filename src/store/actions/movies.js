@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import movies from '../../api/apiRequests/movies';
+import { getFindDetails, getSearchMovies } from '../../api/apiRequests/movies';
 import {
   CLEAR_INFO_ABOUT,
   CLEAR_STATE,
@@ -7,15 +7,15 @@ import {
   LOAD_MORE_MOVIES,
   NO_MATCHES,
   NO_MORE_MATCHES,
-  SEARCH_MOVIES,
+  LOAD_MOVIES,
   START_LOADING,
   START_LOADING_MORE,
 } from '../types';
 
-export const SearchMovies = (s = '', page = 1, type = '', Y = '') => async (dispatch) => {
+export const searchMovies = (s = '', page = 1, type = '', Y = '') => async (dispatch) => {
   try {
-    const res = await movies.getSearchMovies(s, type, Y, page);
-    if (res.data.Response === 'False' && page <= 2) {
+    const res = await getSearchMovies(s, type, Y, page);
+    if (res.data.Response === 'False' && page === 1) {
       dispatch({
         type: NO_MATCHES,
         payload: res.data.Search,
@@ -26,7 +26,7 @@ export const SearchMovies = (s = '', page = 1, type = '', Y = '') => async (disp
       });
     } else if (page === 1) {
       dispatch({
-        type: SEARCH_MOVIES,
+        type: LOAD_MOVIES,
         payload: res.data.Search,
       });
     } else {
@@ -39,12 +39,12 @@ export const SearchMovies = (s = '', page = 1, type = '', Y = '') => async (disp
     // console.log(e);
   }
 };
-export const StartLoading = () => ({
+export const startLoading = () => ({
   type: START_LOADING,
 });
-export const FindDetails = (Id) => async (dispatch) => {
+export const fndDetails = (id) => async (dispatch) => {
   try {
-    const res = await movies.getFindDetails(Id);
+    const res = await getFindDetails(id);
     // console.log(res.data);
     dispatch({
       type: FIND_INFO_ABOUT,
@@ -55,17 +55,17 @@ export const FindDetails = (Id) => async (dispatch) => {
     alert('Error cant find details');
   }
 };
-export const ClearInfoAbout = () => (dispatch) => {
+export const clearInfoAbout = () => (dispatch) => {
   dispatch({
     type: CLEAR_INFO_ABOUT,
   });
 };
-export const StartLoadingMore = () => (dispatch) => {
+export const startLoadingMore = () => (dispatch) => {
   dispatch({
     type: START_LOADING_MORE,
   });
 };
-export const ClearSearch = () => (dispatch) => {
+export const clearSearch = () => (dispatch) => {
   dispatch({
     type: CLEAR_STATE,
   });

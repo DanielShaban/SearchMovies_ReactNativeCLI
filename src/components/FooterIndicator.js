@@ -11,9 +11,9 @@ function FooterIndicator() {
   ) : null;
 }
 
-export default FooterIndicator;
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 20,
   },
 });
+export default FooterIndicator;

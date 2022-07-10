@@ -1,5 +1,5 @@
 import {
- Dimensions, StyleSheet, Text, View, 
+  Dimensions, StyleSheet, Text, View,
 } from 'react-native';
 import React from 'react';
 import AutoHeightImage from 'react-native-auto-height-image';
@@ -7,53 +7,53 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
 const cardWidth = Dimensions.get('window').width * 0.8;
-const NotPictureAvailable = require('../assets/images/No_picture_available.png');
+const notPictureAvailable = require('../assets/images/No_picture_available.png');
 
-function SimplePoster({ item }) {
+function SimplePoster({
+  posterURL, title, type, year, id,
+}) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <AutoHeightImage
           width={cardWidth}
-          source={item.Poster === 'N/A' ? NotPictureAvailable : { uri: item.Poster }}
+          source={posterURL === 'N/A' ? notPictureAvailable : { uri: posterURL }}
           resizeMode="contain"
         />
       </View>
       <View style={styles.postDescriptionContainer}>
         <View style={styles.postDescription}>
           <Text
-            style={styles.title}
+            style={styles.titleStyle}
             numberOfLines={2}
             adjustsFontSizeToFit
             minimumFontScale={0.5}
             maxFontSizeMultiplier={2}
           >
-            {item.Title}
+            {title}
           </Text>
           <View style={styles.postDescriptioBottom}>
-            <Text style={styles.TextType}>{item.Type}</Text>
-            <Text>{item.Year}</Text>
+            <Text style={styles.textType}>{type}</Text>
+            <Text>{year}</Text>
           </View>
         </View>
         <TouchableWithoutFeedback
           onPress={() => navigation.navigate('AboutPost', {
-              PostId: item.imdbID,
-            })}
+            PostId: id,
+          })}
           containerStyle={styles.touchableContainerStyle}
           style={styles.touchableStyle}
         >
-          <Text style={styles.Link}>More info</Text>
+          <Text style={styles.link}>More info</Text>
         </TouchableWithoutFeedback>
       </View>
     </View>
   );
 }
 
-export default SimplePoster;
-
 const styles = StyleSheet.create({
-  Link: {
+  link: {
     color: '#2089dc',
   },
   postDescriptionContainer: {
@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 10,
   },
-  TextType: {
+  textType: {
     marginRight: 5,
   },
-  title: {
+  titleStyle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 5,
@@ -109,3 +109,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+export default SimplePoster;

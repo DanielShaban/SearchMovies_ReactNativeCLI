@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SearchBar } from '@rneui/base';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
-  ClearSearch, SearchMovies, StartLoading, StartLoadingMore,
+  clearSearch, searchMovies, startLoading, startLoadingMore,
 } from '../store/actions/movies';
 import SimplePoster from '../components/SimplePoster';
 import ListEmptyComponent from '../components/ListEmptyComponent';
@@ -15,7 +15,7 @@ import FooterIndicator from '../components/FooterIndicator';
 function MainScreen() {
   const insets = useSafeAreaInsets();
   const [refreshing, setRefreshing] = useState(false);
-  const [text, onChangeText] = useState('');
+  const [text, setText] = useState('');
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const MoviesList = useSelector((state) => state.movies.Movies) ?? false;
@@ -34,7 +34,7 @@ function MainScreen() {
   const debouncedSave = useCallback(
     debounce((entertext) => {
       if (entertext.length >= 3) {
-        dispatch(SearchMovies(entertext));
+        dispatch(searchMovies(entertext));
       }
     }, 1000),
     [],
@@ -42,35 +42,43 @@ function MainScreen() {
 
   const handleChange = (entertext) => {
     setPage(1);
-    onChangeText(entertext);
-    dispatch(StartLoading());
-    if (entertext.length < 3) dispatch(ClearSearch());
+    setText(entertext);
+    dispatch(startLoading());
+    if (entertext.length < 3) dispatch(clearSearch());
     return debouncedSave(entertext);
   };
 
   const onRefresh = () => {
     setRefreshing(true);
     setPage(1);
-    dispatch(SearchMovies(text));
+    dispatch(searchMovies(text));
     setRefreshing(false);
   };
   const getMorePosts = () => {
-    dispatch(StartLoadingMore());
-    dispatch(SearchMovies(text, page + 1));
+    dispatch(startLoadingMore());
+    dispatch(searchMovies(text, page + 1));
     return setPage(page + 1);
   };
-  const renderitem = ({ item }) => <SimplePoster item={item} />;
+  const renderitem = ({ item }) => (
+    <SimplePoster
+      posterURL={item.Poster}
+      title={item.Title}
+      type={item.Type}
+      year={item.Year}
+      id={item.imdbID}
+    />
+  );
   const memoizedValue = useMemo(() => renderitem, []);
 
   return (
     <View style={{ ...styles.container, marginTop: Math.max(insets.top, 16) }}>
       <Text style={styles.h1}>Search a Movie Title</Text>
-      <View style={styles.SearchNarContainer}>
+      <View style={styles.searchNarContainer}>
         <SearchBar
           lightTheme
           placeholder="Type Here..."
           onChangeText={handleChange}
-          containerStyle={styles.SearchBar}
+          containerStyle={styles.searchBar}
           value={text}
         />
       </View>
@@ -80,7 +88,7 @@ function MainScreen() {
         ListEmptyComponent={ListEmptyComponent}
         data={MoviesListToShow}
         initialNumToRender={5}
-        contentContainerStyle={styles.FlarlistContainerStyle}
+        contentContainerStyle={styles.flatlistContainer}
         renderItem={memoizedValue}
         keyExtractor={(item) => item.imdbID.toString()}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
@@ -92,15 +100,15 @@ function MainScreen() {
   );
 }
 const styles = StyleSheet.create({
-  SearchBar: {
+  searchBar: {
     width: '80%',
   },
-  SearchNarContainer: {
+  searchNarContainer: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  FlarlistContainerStyle: {
+  flatlistContainer: {
     alignItems: 'center',
   },
   container: {
@@ -120,4 +128,5 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
 });
+
 export default MainScreen;

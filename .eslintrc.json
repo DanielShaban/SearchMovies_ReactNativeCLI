@@ -4,11 +4,10 @@
         "node": true
     },
     "extends": [
-
         "airbnb",
         "airbnb/hooks"
-        // "eslint:recommended",
-        // "plugin:react/recommended",
+        // "eslint:recommended"
+        // "plugin:react/recommended"
         // "plugin:react-hooks/recommended"
     ],
     "parserOptions": {
@@ -22,14 +21,16 @@
         "react",
         "react-hooks",
         "prettier"
-        
     ],
     "rules": {
         "indent": [
             "error",
             2,
-            {"SwitchCase":1}
+            {
+                "SwitchCase": 1
+            }
         ],
+        "no-tabs": "error",
         "linebreak-style": [
             "error",
             "windows"
@@ -37,26 +38,29 @@
         "quotes": [
             "error",
             "single",
-            {"avoidEscape":true}
+            {
+                "avoidEscape": true
+            }
         ],
-    //     "no-empty-function": "off",
-    "no-use-before-define": "off",
-    "react/display-name": "off",
-    "react/prop-types": "off",
-    // "prettier/prettier": [
-    //     "warn",
-    //     {
-    //       "endOfLine": "auto"
-    //     }
-    //   ],
-    "react-hooks/rules-of-hooks": "error",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react-hooks/exhaustive-deps": "warn"
+        "no-use-before-define": "off",
+        "react/display-name": "off",
+        "react/prop-types": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "react-hooks/exhaustive-deps": "warn",
+        "no-mixed-spaces-and-tabs": "error"
     },
-    "settings":{
+    "settings": {
         "react": {
             "version": "detect"
-          }
-      
+        }
     }
 }

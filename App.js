@@ -6,8 +6,8 @@ import { Provider } from 'react-redux';
 import 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import NavigationApp from './src/navigation/NavigationApp';
 import store from './src/store';
+import Navigation from './src/navigation/Navigation';
 
 export default function App() {
   const appIsReady = true;
@@ -38,7 +38,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <SafeAreaProvider style={styles.container} onLayout={onLayoutRootView}>
-          <NavigationApp />
+          <Navigation />
           {/* <StatusBar style="auto" /> */}
         </SafeAreaProvider>
       </NavigationContainer>

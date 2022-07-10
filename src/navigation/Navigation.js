@@ -4,9 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MainScreen from '../screens/MainScreen';
 import AboutPost from '../screens/AboutPost';
 
-function NavigationApp() {
-  const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 
+function Navigation() {
   return (
     <Stack.Navigator mode="modal">
       <Stack.Screen
@@ -28,4 +28,4 @@ function NavigationApp() {
   );
 }
 
-export default NavigationApp;
+export default Navigation;

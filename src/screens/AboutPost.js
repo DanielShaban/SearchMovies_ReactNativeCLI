@@ -6,31 +6,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import AutoHeightImage from 'react-native-auto-height-image';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ClearInfoAbout, FindDetails } from '../store/actions/movies';
+import { clearInfoAbout, fndDetails } from '../store/actions/movies';
 import { colors } from '../theme';
+import AboutPostList from '../components/AboutPostList';
 
 const windowsWidth = Dimensions.get('window').width;
 
 function AboutPost({ route }) {
-  const PostId = route.params?.PostId ?? 0;
+  const postId = route.params?.PostId ?? 0;
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const [isShort, setIsShort] = useState(true);
 
   const infoAbout = useSelector((state) => state.movies.infoAbout) ?? false;
 
-  const InfoList = Object.keys(infoAbout)
-    .map((key, index) => {
-      if (index > 5 && isShort) {
-        return '';
-      }
-      return infoAbout[key] === 'N/A' ? '' : `${key}:  ${infoAbout[key]} \n`;
-    })
-    .filter((el) => el !== '');
-
   useEffect(() => {
-    dispatch(FindDetails(PostId));
-    return () => dispatch(ClearInfoAbout());
+    dispatch(fndDetails(postId));
+    return () => dispatch(clearInfoAbout());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -38,14 +30,15 @@ function AboutPost({ route }) {
     <ScrollView style={styles.container}>
       <View style={{ ...styles.margins, marginBottom: Math.max(insets.bottom, 10) }}>
         <AutoHeightImage width={windowsWidth - 40} source={{ uri: infoAbout.Poster }} />
-        <Text style={styles.InfoListStyle}>{InfoList}</Text>
+        <View style={{ marginTop: 20 }}>
+          <AboutPostList infoAbout={infoAbout} isShort={isShort} />
+        </View>
         {isShort ? (
-          <Text style={styles.TextLink} onPress={() => setIsShort(false)}>
+          <Text style={styles.textLink} onPress={() => setIsShort(false)}>
             See more...
           </Text>
         ) : (
-          <Text style={styles.TextLink} onPress={() => setIsShort(true)}>
-            {' '}
+          <Text style={styles.textLink} onPress={() => setIsShort(true)}>
             See less...
           </Text>
         )}
@@ -57,11 +50,8 @@ function AboutPost({ route }) {
 export default AboutPost;
 
 const styles = StyleSheet.create({
-  InfoListStyle: {
+  textLink: {
     fontSize: 15,
-    marginTop: 40,
-  },
-  TextLink: {
     color: colors.linkColor,
   },
   margins: {
