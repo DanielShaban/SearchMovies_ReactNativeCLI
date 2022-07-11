@@ -1,23 +1,24 @@
 import {
-  View, Text, Dimensions, StyleSheet,
+  View, Text, Dimensions, StyleSheet, Pressable,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AutoHeightImage from 'react-native-auto-height-image';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useRoute } from '@react-navigation/native';
 import { clearInfoAbout, fndDetails } from '../store/actions/movies';
 import { colors } from '../theme';
 import AboutPostList from '../components/AboutPostList';
 
-const windowsWidth = Dimensions.get('window').width;
-
-function AboutPost({ route }) {
-  const postId = route.params?.PostId ?? 0;
+function AboutPost() {
   const dispatch = useDispatch();
+  const route = useRoute();
   const insets = useSafeAreaInsets();
-  const [isShort, setIsShort] = useState(true);
 
+  const windowsWidth = Dimensions.get('window').width;
+  const [isShort, setIsShort] = useState(true);
+  const postId = route.params?.PostId ?? 0;
   const infoAbout = useSelector((state) => state.movies.infoAbout) ?? false;
 
   useEffect(() => {
@@ -28,28 +29,31 @@ function AboutPost({ route }) {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={{ ...styles.margins, marginBottom: Math.max(insets.bottom, 10) }}>
+      <View style={[styles.margins, { marginBottom: Math.max(insets.bottom, 10) }]}>
         <AutoHeightImage width={windowsWidth - 40} source={{ uri: infoAbout.Poster }} />
-        <View style={{ marginTop: 20 }}>
+        <View style={styles.AboutPostListContainer}>
           <AboutPostList infoAbout={infoAbout} isShort={isShort} />
         </View>
         {isShort ? (
-          <Text style={styles.textLink} onPress={() => setIsShort(false)}>
-            See more...
-          </Text>
+          <Pressable onPress={() => setIsShort(false)}>
+            <Text style={styles.textLink} onPress={() => setIsShort(false)}>
+              See more...
+            </Text>
+          </Pressable>
         ) : (
-          <Text style={styles.textLink} onPress={() => setIsShort(true)}>
-            See less...
-          </Text>
+          <Pressable onPress={() => setIsShort(true)}>
+            <Text style={styles.textLink}>See less...</Text>
+          </Pressable>
         )}
       </View>
     </ScrollView>
   );
 }
 
-export default AboutPost;
-
 const styles = StyleSheet.create({
+  AboutPostListContainer: {
+    marginTop: 20,
+  },
   textLink: {
     fontSize: 15,
     color: colors.linkColor,
@@ -61,3 +65,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default AboutPost;

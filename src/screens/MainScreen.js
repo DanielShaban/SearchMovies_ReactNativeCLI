@@ -11,24 +11,17 @@ import {
 import SimplePoster from '../components/SimplePoster';
 import ListEmptyComponent from '../components/ListEmptyComponent';
 import FooterIndicator from '../components/FooterIndicator';
+import { debounce } from '../helper/debounce';
 
 function MainScreen() {
   const insets = useSafeAreaInsets();
-  const [refreshing, setRefreshing] = useState(false);
+  const dispatch = useDispatch();
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [text, setText] = useState('');
   const [page, setPage] = useState(1);
-  const dispatch = useDispatch();
   const MoviesList = useSelector((state) => state.movies.Movies) ?? false;
   const MoviesListToShow = text.length < 3 ? [] : MoviesList;
-  const debounce = (func, wait) => {
-    let timeout;
-    return (...args) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        func(...args);
-      }, wait);
-    };
-  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSave = useCallback(
@@ -48,17 +41,22 @@ function MainScreen() {
     return debouncedSave(entertext);
   };
 
-  const onRefresh = () => {
-    setRefreshing(true);
-    setPage(1);
-    dispatch(searchMovies(text));
-    setRefreshing(false);
-  };
+  const onRefresh = useCallback(() => {
+    if (text.length >= 3) {
+      setIsRefreshing(true);
+      setPage(1);
+      dispatch(searchMovies(text));
+      setIsRefreshing(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
+
   const getMorePosts = () => {
     dispatch(startLoadingMore());
     dispatch(searchMovies(text, page + 1));
     return setPage(page + 1);
   };
+
   const renderitem = ({ item }) => (
     <SimplePoster
       posterURL={item.Poster}
@@ -68,10 +66,11 @@ function MainScreen() {
       id={item.imdbID}
     />
   );
+
   const memoizedValue = useMemo(() => renderitem, []);
 
   return (
-    <View style={{ ...styles.container, marginTop: Math.max(insets.top, 16) }}>
+    <View style={[styles.container, { marginTop: Math.max(insets.top, 16) }]}>
       <Text style={styles.h1}>Search a Movie Title</Text>
       <View style={styles.searchNarContainer}>
         <SearchBar
@@ -91,7 +90,7 @@ function MainScreen() {
         contentContainerStyle={styles.flatlistContainer}
         renderItem={memoizedValue}
         keyExtractor={(item) => item.imdbID.toString()}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
         onEndReached={getMorePosts}
         ListFooterComponent={FooterIndicator}
         onEndReachedThreshold={0.2}

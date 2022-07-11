@@ -6,10 +6,10 @@ import { Provider } from 'react-redux';
 import 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import store from './src/store';
-import Navigation from './src/navigation/Navigation';
+import store from './store';
+import Navigation from './navigation/Navigation';
 
-export default function App() {
+function App() {
   const appIsReady = true;
   // const [appIsReady, setAppIsReady] = useState(false);
   // useEffect(() => {
@@ -51,3 +51,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default App;
