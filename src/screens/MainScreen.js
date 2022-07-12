@@ -1,9 +1,8 @@
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   View, Text, StyleSheet, FlatList, RefreshControl,
 } from 'react-native';
-import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SearchBar } from '@rneui/base';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   clearSearch, searchMovies, startLoading, startLoadingMore,
@@ -12,6 +11,7 @@ import SimplePoster from '../components/SimplePoster';
 import ListEmptyComponent from '../components/ListEmptyComponent';
 import FooterIndicator from '../components/FooterIndicator';
 import { debounce } from '../helper/debounce';
+import SearchBar from '../components/SearchBar';
 
 function MainScreen() {
   const insets = useSafeAreaInsets();
@@ -20,6 +20,7 @@ function MainScreen() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [text, setText] = useState('');
   const [page, setPage] = useState(1);
+
   const MoviesList = useSelector((state) => state.movies.Movies) ?? false;
   const MoviesListToShow = text.length < 3 ? [] : MoviesList;
 
@@ -73,13 +74,7 @@ function MainScreen() {
     <View style={[styles.container, { marginTop: Math.max(insets.top, 16) }]}>
       <Text style={styles.h1}>Search a Movie Title</Text>
       <View style={styles.searchNarContainer}>
-        <SearchBar
-          lightTheme
-          placeholder="Type Here..."
-          onChangeText={handleChange}
-          containerStyle={styles.searchBar}
-          value={text}
-        />
+        <SearchBar setSearchPhrase={handleChange} searchPhrase={text} />
       </View>
 
       <FlatList
@@ -99,9 +94,6 @@ function MainScreen() {
   );
 }
 const styles = StyleSheet.create({
-  searchBar: {
-    width: '80%',
-  },
   searchNarContainer: {
     width: '100%',
     justifyContent: 'center',

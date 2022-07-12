@@ -1,8 +1,6 @@
-// import {StatusBar} from 'expo-status-bar';
 import React, { useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
-// import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';

@@ -1,10 +1,9 @@
-import {
-  View, Text, Dimensions, StyleSheet, Pressable,
-} from 'react-native';
 import React, { useEffect, useState } from 'react';
+import {
+  View, Text, Dimensions, StyleSheet, Pressable, ScrollView,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import AutoHeightImage from 'react-native-auto-height-image';
-import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRoute } from '@react-navigation/native';
 import { clearInfoAbout, fndDetails } from '../store/actions/movies';
