@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = 'http://www.omdbapi.com';
+const URL = 'https://www.omdbapi.com';
 const apikey = 'ae867a74';
 
 export const getSearchMovies = (s, type, Y, page) => axios({

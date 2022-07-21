@@ -13,6 +13,7 @@ import {
 } from '../types';
 
 export const searchMovies = (s = '', page = 1, type = '', Y = '') => async (dispatch) => {
+  console.log('searching')
   try {
     const res = await getSearchMovies(s, type, Y, page);
     if (res.data.Response === 'False' && page === 1) {
@@ -36,7 +37,7 @@ export const searchMovies = (s = '', page = 1, type = '', Y = '') => async (disp
       });
     }
   } catch (e) {
-    // console.log(e);
+    alert(e);
   }
 };
 export const startLoading = () => ({
