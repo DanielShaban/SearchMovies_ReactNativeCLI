@@ -54,6 +54,6 @@ You can use an [Expo App](https://play.google.com/store/apps/details?id=host.exp
 ## What are the technologies used?
 - React Native CLI
 - React Native Expo
-- Rest Api ([https://www.omdbapi.com/])
+- Rest Api (https://www.omdbapi.com/)
 - React Redux, Redux Thunk
 - Axios
