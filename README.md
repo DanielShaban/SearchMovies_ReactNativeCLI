@@ -42,11 +42,11 @@ run android/ios simulator
 ```
 
 ## 📲 Can I try the app?
-download [Expo Version](https://github.com/krutoyDaniel/SearchMoviesApp) 
+Download [Expo Version](https://github.com/krutoyDaniel/SearchMoviesApp) 
 
 Or
 
-you can use an [Expo App](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=ru&gl=US) to try out this app with minimal effort: 
+You can use an [Expo App](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=ru&gl=US) to try out this app with minimal effort: 
 
 - Download an app   
 - Open [this link](https://expo.dev/@dany222/MovieSearchApp.)   
