@@ -1,7 +1,7 @@
 
 # Search movies app
 
-This is an application that demonstrates my skills in writing applications in react native
+This is an application that demonstrates my skills in writing applications in react native. 
 With this application, you can find movies by title and read detailed information about it
 
 ## Demo
