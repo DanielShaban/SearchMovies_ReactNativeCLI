@@ -49,7 +49,8 @@ Or
 You can use an [Expo App](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=ru&gl=US) to try out this app with minimal effort: 
 
 - Download an app   
-- Open [this link](https://expo.dev/@dany222/MovieSearchApp.)   
+- Scan this QR code ![Screenshot 2022-07-21 235927](https://user-images.githubusercontent.com/55671854/180359653-906a2fc1-a99d-4cb6-aedb-4a5bb57998ae.png) 
+More detailed instructions can be found [here](https://exp.host/@dany222/MovieSearchApp?release-channel=default)   
 ❗This method works only with Android!
 ## What are the technologies used?
 - React Native CLI
