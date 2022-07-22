@@ -2,7 +2,7 @@
 # Search movies app
 
 This is an application that demonstrates my skills in writing applications in react native
-
+With this application, you can find movies by title and read detailed information about it
 
 ## Demo
 https://user-images.githubusercontent.com/55671854/180353404-611f3785-2632-48ef-bc04-322d089b5fc8.mp4
