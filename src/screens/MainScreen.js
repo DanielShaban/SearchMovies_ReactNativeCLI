@@ -41,12 +41,10 @@ function MainScreen() {
     if (entertext.length < 3) dispatch(clearSearch());
     return debouncedSave(entertext);
   };
-console.log('start');
   const onRefresh = useCallback(() => {
     if (text.length >= 3) {
       setIsRefreshing(true);
       setPage(1);
-      console.log('start search')
       dispatch(searchMovies(text));
       setIsRefreshing(false);
     }
