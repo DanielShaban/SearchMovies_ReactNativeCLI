@@ -13,7 +13,6 @@ import {
 } from '../types';
 
 export const searchMovies = (s = '', page = 1, type = '', Y = '') => async (dispatch) => {
-  console.log('searching')
   try {
     const res = await getSearchMovies(s, type, Y, page);
     if (res.data.Response === 'False' && page === 1) {
@@ -37,6 +36,7 @@ export const searchMovies = (s = '', page = 1, type = '', Y = '') => async (disp
       });
     }
   } catch (e) {
+    // eslint-disable-next-line no-undef
     alert(e);
   }
 };
@@ -53,7 +53,7 @@ export const fndDetails = (id) => async (dispatch) => {
     });
   } catch (e) {
     // eslint-disable-next-line no-undef
-    alert('Error cant find details');
+    alert(e);
   }
 };
 export const clearInfoAbout = () => (dispatch) => {
